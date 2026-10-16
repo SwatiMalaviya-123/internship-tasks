@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Weather Now</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <main class="page">
+    <section class="app-card">
+      <p class="eyebrow">WEATHER NOW</p>
+      <h1>Weather, at a glance.</h1>
+      <p class="intro">Enter a city to see its current conditions.</p>
+
+      <form method="post" class="search-form">
+        <label class="visually-hidden" for="city">City</label>
+        <input
+          id="city"
+          name="city"
+          type="text"
+          placeholder="e.g. Surat"
+          value="{{ city }}"
+          required
+        >
+        <button type="submit">Get weather</button>
+      </form>
+
+      {% if error %}
+        <p class="error" role="alert">{{ error }}</p>
+      {% endif %}
+
+      {% if weather %}
+        <section class="weather-result" aria-live="polite">
+          <div class="current">
+            <div>
+              <h2>{{ weather.city }}{% if weather.country %}, {{ weather.country }}{% endif %}</h2>
+              <p class="description">{{ weather.description }}</p>
+            </div>
+            <p class="temperature">{{ weather.temperature }}<span>°C</span></p>
+          </div>
+
+          <div class="details">
+            <div class="detail">
+              <span>Feels like</span>
+              <strong>{{ weather.feels_like }}°C</strong>
+            </div>
+            <div class="detail">
+              <span>Humidity</span>
+              <strong>{{ weather.humidity }}%</strong>
+            </div>
+            <div class="detail">
+              <span>Wind</span>
+              <strong>{{ weather.wind }} m/s</strong>
+            </div>
+            <div class="detail">
+              <span>Pressure</span>
+              <strong>{{ weather.pressure }} hPa</strong>
+            </div>
+          </div>
+        </section>
+      {% endif %}
+    </section>
+    <footer>Weather data provided by OpenWeather</footer>
+  </main>
+</body>
+</html>
